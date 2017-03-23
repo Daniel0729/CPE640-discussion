@@ -21,3 +21,8 @@ const UserSchema = mongoose.Schema({
 //export the model
 const User = module.exports = mongoose.model('User',UserSchema);
 
+//utitly function
+module.exports.addUser = function(newUser,callback)
+{
+    newUser.save(callback);
+}

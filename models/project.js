@@ -18,12 +18,12 @@ const ProjectSchema = mongoose.Schema({
     },
     start:
     {
-        type: Data,
+        type: Date,
         required: true
     },
     end:
     {
-        type: Data,
+        type: Date,
         required: true
     }
 
@@ -31,3 +31,8 @@ const ProjectSchema = mongoose.Schema({
 
 //export the model
 const Project = module.exports = mongoose.model('Project',ProjectSchema);
+
+module.exports.createProject = function(newProject,callback)
+{
+    newProject.save(callback);
+}

@@ -1,20 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');//need to figout how to use authentication
-const User = require('../models/user');
+const Dis = require('../models/discussion');
 
-//Register
-router.get('/vaild',(req,res,next)=>{
-    res.send("Vaild");
-});
-router.post('/register',(req,res,next) => {
-    let newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
+//createDiscussion
+router.post('/creatediscussion',(req,res) => {
+    let newDis = new Dis({
+        topic: req.body.topic,
+        content: req.body.content
     });
-    // if User already exist?
-    User.addUser(newUser,(err,user)=>{
+
+        Dis.createDiscussion(newDis,(err,newDis)=>{
         if(err)
         {
             res.json({sucess: false, msg:err});
@@ -25,5 +21,4 @@ router.post('/register',(req,res,next) => {
         }
     });
 });
-
 module.exports = router;

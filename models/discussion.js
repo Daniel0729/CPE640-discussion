@@ -25,3 +25,9 @@ const DiscussionSchema = mongoose.Schema({
 
 //export the model
 const Discussion = module.exports = mongoose.model('Discussion',DiscussionSchema);
+
+module.exports.createDiscussion = function (discussion,callback){
+
+    discussion.save(callback);
+
+}
