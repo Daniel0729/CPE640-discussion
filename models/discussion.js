@@ -16,10 +16,10 @@ const DiscussionSchema = mongoose.Schema({
         type: String,
         rerquired: true
     },
-    // comment://this must be can iteration
-    // {
-    //     discussion:
-    // }
+    comment://this must be can iteration
+    {
+         discussion:
+    }
 
 });
 
