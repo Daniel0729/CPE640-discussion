@@ -1,0 +1,127 @@
+<!DOCTYPE>
+<html>
+
+
+
+
+
+<div class="row row-offcanvas row-offcanvas-left" >
+  <div class=col-sm-9 ng-controller="AppCtrl">     
+    <div class="col-lg-1"></div>
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-8"> 
+
+          
+          <form>
+              <div class="form-group" rows="10">
+              
+
+                  <label for="Pname" ></label>
+                  <input type="text" class="form-control" ng-model="project.name" id="email" placeholder="Name"> 
+                  <label for="Description"></label>
+                  <textarea name="message" ng-model="project.info" class="form-control" rows="3" cols="50" placeholder="Description"></textarea>
+                  <label for="courseId"></label>
+                  <div><input type="number" class="form-control" ng-model="project.team" placeholder="size of team">
+                  <input type="text" class="form-control" ng-model="project.courseId" placeholder="courseId"></div>
+                  <br></br>
+                   <input type = "file" file-model = "myFile"/>
+                   <button ng-click = "uploadFile()">upload</button>
+                   <div class="btn-group pull-right">
+      					<button class="btn btn-primary" type="button" ng-click="myFunc()"> Add Members</button>          
+    				</div>
+      
+                  
+              </div>
+              <button class="btn btn-primary" ng-click="addproject()">Create</button>  
+              
+            </form>
+            
+
+            <table class="table">
+                <thead>
+                  <tr class="cob-popover-container">
+                  	<th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
+                    <th>Name</th>
+                    <th>Info</th>
+                    <th class=col-sm-1>Size</th>
+                    <th>Course</th>
+                    <th>Action</th>
+                    <th>&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="project in projectlist">
+                  	<td>
+						<input type="checkbox" ng-model="personalDetail.selected"/>
+      				</td>
+                    <td><a href="#/info" >{{project.name}}</a></td>
+                    <td>{{project.info}}</td>
+                    <td>{{project.team}}</td>
+                    <td>{{project.courseId}}</td>
+
+                    <!--<td>{{project.team}}</td>-->
+                    <td><button class="btn btn-danger" ng-click="remove(project._id)">Remove</button></td>
+            		<td><button class="btn btn-warning" ng-click="edit(project._id)">Edit</button></td>
+                  </tr>
+                </tbody>
+            </table>
+          </div>  
+        </div> 
+
+      </div>
+    </div>
+  </div>
+
+
+          <!-- add your code here-->
+    
+        
+  <div class=col-sm-2>
+
+    <p class="pull-right visible-xs">
+    <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+    </p>
+
+            
+            
+        <!--/.col-xs-12.col-sm-9-->
+
+    <div class="sidebar-offcanvas" id="sidebar">
+      <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#student">Student</a></li>
+      <li><a data-toggle="tab" href="#group">Group</a></li>
+      </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade in active"  id="student">
+          <!-- we need json or datebase to dispaly here-->
+            <div class="list-group">
+                  <a href="#" class="list-group-item" onclick="creates()">student 1<span class="badge">message 2</span></a>
+                  <a href="#" class="list-group-item" onclick="creates()">student 2<span class="badge">message 15</span></a>
+                  <a href="#" class="list-group-item" onclick="creates()">student 3<span class="badge">message 15</span></a>
+                  <a href="#" class="list-group-item" onclick="creates()">student 4<span class="badge">message 15</span></a>
+                  <a href="#" class="list-group-item" onclick="creates()">student 5<span class="badge">message 15</span></a>
+                  <a href="#" class="list-group-item" onclick="creates()">student 6<span class="badge">message 15</span></a>
+                  <a href="#" class="list-group-item" onclick="creates()">student 7<span class="badge">message 15</span></a>
+                  <a href="#" class="list-group-item" onclick="creates()">student 8<span class="badge">message 15</span></a>
+                  <a href="#" class="list-group-item" onclick="creates()">student 9<span class="badge">message 15</span></a>
+                  <a href="#" class="list-group-item" onclick="creates()">student 10<span class="badge">message 15</span></a>
+            </div>
+          </div>
+          <div class="tab-pan fade" id="group">
+              <div class="list-group"><!-- we need json or datebase to dispaly here-->
+                    <a href="#" class="list-group-item active">group 1</a>
+                    <a href="#" class="list-group-item">group 2</a>
+              </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class=col-sm-1></div>
+</div>
+
+
+
+  
+   

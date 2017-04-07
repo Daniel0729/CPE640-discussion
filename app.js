@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const flash = require('connect-flash');
 const path = require("path");
 const morgan = require('morgan');
@@ -11,6 +13,7 @@ const session = require('express-session');
 
 //database mongodb
 mongoose.connect('mongodb://localhost/Discussion');
+require('./config/passport')(passport);
 // testing
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -30,7 +33,8 @@ app.use(morgan('dev'));
 //Parse cookie header and populate req.cookies with an object keyed by cookie names.
 
 app.use(cookieParser());
-app.use(session({secret:"GODisgood",saveUninitialized: true,resave: true}));
+app.use(bodyParser());
+app.use(session({secret:"GODisgood"}));
 
 //pasport Middleware
 app.use(passport.initialize());
@@ -57,7 +61,7 @@ app.use(express.static(path.join(__dirname,'public')));
 //Set views engine also the client-side stuff HTML
 // app.set('views',path.join(__dirname,'views'));
 // app.set('views engine','ejs');
-require('./config/passport.js')(app,passport);
+require('./routes/users')(app,passport);
 app.listen(3000,(err) => {
     if(err){
         console.log(err);

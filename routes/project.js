@@ -24,4 +24,47 @@ router.post('/createproject',(req,res) => {
         }
     });
 });
+router.get('/projectlist', function (req, res) {
+  console.log('I received a GET request');
+
+  db.projectlist.find(function (err, docs) {
+    console.log(docs);
+    res.json(docs);
+  });
+});
+
+router.post('/projectlist', function (req, res) {
+  console.log(req.body);
+  db.projectlist.insert(req.body, function(err, doc) {
+    res.json(doc);
+  });
+});
+
+router.delete('/projectlist/:id', function (req, res) {
+  var id = req.params.id;
+  console.log(id);
+  db.projectlist.remove({_id: mongojs.ObjectId(id)}, function (err, doc) {
+    res.json(doc);
+  });
+});
+
+router.get('/projectlist/:id', function (req, res) {
+  var id = req.params.id;
+  console.log(id);
+  db.projectlist.findOne({_id: mongojs.ObjectId(id)}, function (err, doc) {
+    res.json(doc);
+  });
+});
+
+router.put('/projectlist/:id', function (req, res) {
+  var id = req.params.id;
+  console.log(req.body.name);
+  db.projectlist.findAndModify({
+    query: {_id: mongojs.ObjectId(id)},
+    update: {$set: {name: req.body.name, info: req.body.info}},
+    new: true}, function (err, doc) {
+      res.json(doc);
+    }
+  );
+});
 module.exports = router;
