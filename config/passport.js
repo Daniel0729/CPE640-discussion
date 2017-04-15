@@ -1,4 +1,4 @@
-var localStrategy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 
 module.exports = function(passport){
@@ -12,12 +12,13 @@ module.exports = function(passport){
         });
     });
 
-    passport.use('local-signup',new localStrategy({
+    passport.use('local-signup',new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password',
         passReqToCallback: true
     },
-    function(req , username, password, email,done){
+    function(req , username, password,done){
+        //nodejs process.nextTick 
         process.nextTick(function(){
             User.find({'username':username}, function(err,user)
             {
@@ -25,12 +26,12 @@ module.exports = function(passport){
                     return done(err);
                 if(user)
                 {
-                    return done(null,false,console.log('username is already token'));
+                    return done(null,false,req.flash('signupMessage','username is already token'));
                 }
                 else{
-                    new newUser = new User();
+                    var newUser = new User();
                     newUser.username = username;
-                    newUser.passport = passport;
+                    newUser.passport = newUser.generateHash(password);
                     newUser.email = email;
 
                     newUser.save(function(err){
@@ -41,6 +42,28 @@ module.exports = function(passport){
                 }
             })
         });
+    }
+    ));
+
+    passport.use('local-login', new LocalStrategy({
+        usernameField: 'username',
+        passportField: 'password',
+        passReqToCallback: true
+    },
+    function(req,email,password,done){
+        process.nextTick(function(){
+            User.findOne({'username':username},function(err,user){
+                if(err)
+                    return done(err);
+                if(!user && !user.validPassword(password))
+                {
+                    return done(null,false,req.flash('loginMessage','Invalid password or Username'));
+                }
+                else{
+                    done(null,user);
+                }
+            })
+        })
     }
     ))
 }

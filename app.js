@@ -2,8 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const LocalStrategy = require('passport-local').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
 const flash = require('connect-flash');
 const path = require("path");
 const morgan = require('morgan');
@@ -13,7 +11,7 @@ const session = require('express-session');
 
 //database mongodb
 mongoose.connect('mongodb://localhost/Discussion');
-require('./config/passport')(passport);
+
 // testing
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -26,6 +24,7 @@ const project = require('./routes/project');
 const discussion = require('./routes/discussion');
 
 const app = express();
+require('./config/passport')(passport);
 //morgan middleware: HTTP request logger middleware. I think it like server-client monitor
 app.use(morgan('dev'));
 
@@ -33,12 +32,12 @@ app.use(morgan('dev'));
 //Parse cookie header and populate req.cookies with an object keyed by cookie names.
 
 app.use(cookieParser());
-app.use(bodyParser());
-app.use(session({secret:"GODisgood"}));
+app.use(session({secret:"GODisgood",saveUninitialized:true,resave:true}));
 
 //pasport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 
 //app.use deal with the middleware
@@ -59,8 +58,8 @@ app.use('/discussion',discussion);
 app.use(express.static(path.join(__dirname,'public')));
 
 //Set views engine also the client-side stuff HTML
-// app.set('views',path.join(__dirname,'views'));
-// app.set('views engine','ejs');
+app.set('views',path.join(__dirname,'views'));
+app.set('views engine','ejs');
 require('./routes/users')(app,passport);
 app.listen(3000,(err) => {
     if(err){
